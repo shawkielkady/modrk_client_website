@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+const { spawn, spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
@@ -8,6 +8,25 @@ const defaultFfmpegPath =
 const ffmpegPath = fs.existsSync(defaultFfmpegPath)
   ? defaultFfmpegPath
   : "ffmpeg";
+let rtspTimeoutOption;
+
+function getRtspTimeoutOption() {
+  if (!rtspTimeoutOption) {
+    const { stdout, stderr, error, status } = spawnSync(
+      ffmpegPath,
+      ["-hide_banner", "-h", "demuxer=rtsp"],
+      { encoding: "utf8", timeout: 5000, windowsHide: true },
+    );
+    if (error) throw error;
+    if (status !== 0) throw new Error("Could not inspect FFmpeg RTSP options");
+
+    // FFmpeg 4.4 can use -timeout for listen mode and -stimeout for TCP I/O.
+    rtspTimeoutOption = /^\s*-stimeout\s/m.test(`${stdout}\n${stderr}`)
+      ? "-stimeout"
+      : "-timeout";
+  }
+  return rtspTimeoutOption;
+}
 
 const streams = new Map();
 const cameraLocks = new Map();
@@ -337,7 +356,7 @@ async function startStream(cameraId, rtspUrl, viewerId) {
       "info",
       "-rtsp_transport",
       "tcp",
-      "-timeout",
+      getRtspTimeoutOption(),
       "5000000",
       "-i",
       rtspUrl,
