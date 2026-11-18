@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "home": "Home",
+    "myOrders": "My Orders",
+    "cart": "Cart",
+    "about": "About Us",
+    "terms": "Terms & Conditions",
+    "login": "Log in",
+    "menu": "Menu",
+    "subtitle": ""
+  },
+  "actions": {
+    "close": "Close"
+  },
+  "categories": {
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "product": {
+    "goLive": "Go to live stream",
+    "orgDetails": "Organization details",
+    "cr": "C.R.: {{value}}",
+    "pen": "Pen: {{value}}",
+    "comments": "Comments",
+    "weight": "Weight {{value}} kg",
+    "age": "Age: {{value}}",
+    "price": "Price {{value}}"
+  },
+  "orgModal": {
+    "verifiedReviews": "Verified ratings and comments from customers who bought",
+    "reviewsTitle": "Ratings and comments:",
+    "loadingReviews": "Loading reviews...",
+    "noReviews": "No reviews available yet"
+  },
+  "about": {
+    "title": "Modryk is the region's first smart sheep market",
+    "description": "When we say smart sheep market, we mean Modryk lets you view and choose your animal live through streaming cameras, right from your phone."
+  },
+   "orders": {
+    "title": "My Orders",
+    "current": "Current Orders",
+    "number": "Order number:",
+    "date": "Order date:",
+    "status": "Order status:",
+    "details": "Details",
+    "statuses": {
+      "delivered": "Delivered"
+    }
+  },
+   "cart": {
+    "title": "Cart",
+    "contents": "Cart items",
+    "type": "Type:",
+    "quantity": "Quantity:",
+    "price": "Price:",
+    "priceValue": "{{value}} SAR",
+    "confirm": "Confirm order",
+    "reorder": "Reorder",
+    "timerHint": "Please complete your order within the time limit",
+    "expired": "The order was cancelled because time ran out"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Log in",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register now",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone number",
+    "confirmPassword": "Confirm password",
+    "register": "Create account",
+    "hasAccount": "Already have an account?",
+    "loginNow": "Log in"
+  },
+  "otp": {
+    "title": "Account Verification",
+    "subtitle": "Please enter the 4-digit code sent to you",
+    "confirm": "Confirm",
+    "hasAccount": "Already have an account?",
+    "loginNow": "Log in",
+    "didNotReceive": "Didn't receive code?",
+    "resendCode": "Resend code",
+    "resendIn": "Resend code in"
+  },
+  "banner": {
+    "installment": "Pay in installments via:"
+  },
+  "footer": {
+    "fastLinks": "Fast Links",
+    "home": "Home",
+    "terms": "Terms and conditions",
+    "contactUs": "Contact Us",
+    "paymentMethods": "Payment Methods"
+  }
+}
