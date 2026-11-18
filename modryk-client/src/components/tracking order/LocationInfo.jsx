@@ -48,9 +48,10 @@ function LocationInfo() {
           <button
             type="button"
             id="addressSelectBtn"
-            className="text-primary font-bold gap-4 text-base md:text-xl py-2 px-4 md:px-10 mx-auto w-100 justify-center text-center rounded-4xl bg-[#D0D0D0] hover:bg-[#c2c2c2] transition flex items-center"
+            className="text-primary font-bold gap-3 md:gap-4 text-base md:text-xl py-2 px-4 md:px-10 mx-auto w-full max-w-100 justify-center text-center rounded-4xl bg-[#D0D0D0] hover:bg-[#c2c2c2] transition flex items-center"
           >
-            <MapPin className="w-5 h-5 text-primary" /> {customer_address}
+            <MapPin className="w-5 h-5 shrink-0 text-primary" />
+            <span className="min-w-0 wrap-anywhere">{customer_address}</span>
           </button>
         </div>
       )}
