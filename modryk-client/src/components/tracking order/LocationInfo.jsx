@@ -4,6 +4,10 @@ import { useSelector } from "react-redux";
 import { useModal } from "../../shared components/model/ModelContext";
 import CheckItemsModel from "./models/CheckItemsModel";
 import RateOrderModel from "./models/RateOrderModel";
+import sheepBadge from "@assets/sheepbadge.svg";
+import weightIcon from "@assets/Weighticon.png";
+import currencyPrimary from "@assets/currencyprimary.png";
+import waitIcon from "@assets/wait icon.svg";
 
 function LocationInfo() {
   const { openModal } = useModal();
@@ -73,7 +77,7 @@ function LocationInfo() {
             </div>
 
             <img
-              src="./assets/sheepbadge.svg"
+              src={sheepBadge}
               className="shrink-0 w-14 h-14 sm:w-20 sm:h-20 md:w-25 md:h-25"
               alt=""
             />
@@ -86,7 +90,7 @@ function LocationInfo() {
                   {farm.farm_weight_from} - {farm.farm_weight_to}
                 </span>
                 <img
-                  src="./assets/Weighticon.png"
+                  src={weightIcon}
                   className="shrink-0 h-6 w-6 md:h-10 md:w-10"
                   alt=""
                 />
@@ -115,7 +119,7 @@ function LocationInfo() {
             <div className="flex items-center gap-2">
               <span>{total}</span>
               <img
-                src="./assets/currencyprimary.png"
+                src={currencyPrimary}
                 className="shrink-0 h-6 w-6 md:h-10 md:w-10"
                 alt=""
               />
@@ -142,7 +146,7 @@ function LocationInfo() {
       )}
 
       <div className="py-4 space-y-4 w-full mx-auto md:w-[70%] flex gap-4 items-center">
-        <img src="./assets/wait icon.svg" className="w-10" alt="" />
+        <img src={waitIcon} className="w-10" alt="" />
         <p className="font-bold text-xl">
           سيتم تجهيز طلبكم عند بدء اوقات العمل الرسمية
         </p>

@@ -24,7 +24,7 @@ export async function startStreamApi(
   if (!cameraId) {
     throw new Error("معرّف الكاميرا غير متوفر");
   }
-  if (!rtspUrl) {
+  if (import.meta.env.DEV && !rtspUrl) {
     throw new Error("رابط RTSP للكاميرا غير متوفر");
   }
   if (!viewerId) {
@@ -42,7 +42,7 @@ export async function startStreamApi(
       },
       body: JSON.stringify({
         cameraId: String(cameraId),
-        rtspUrl: String(rtspUrl),
+        ...(import.meta.env.DEV && { rtspUrl: String(rtspUrl) }),
         viewerId: String(viewerId),
       }),
       signal,

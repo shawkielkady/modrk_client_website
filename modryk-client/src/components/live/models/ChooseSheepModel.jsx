@@ -2,6 +2,8 @@ import { useModal } from "../../../shared components/model/ModelContext";
 import DownloadAppModel from "./DownloadAppModel";
 // import PreOrderWarn from "./PreOrderWarn";
 import QuantityModel from "./QuantityModel";
+import sheepIcon from "@assets/sheepicon.png";
+import shepherdIcon from "@assets/shephered.svg";
 
 export default function ChooseSheepModel() {
   const { openModal } = useModal();
@@ -25,7 +27,7 @@ export default function ChooseSheepModel() {
             إرفاق صور الأغنام.
           </p>
           <img
-            src="../../assets/sheepicon.png"
+            src={sheepIcon}
             alt="Sheep icon"
             className="w-16 h-16 object-contain"
           />
@@ -44,7 +46,7 @@ export default function ChooseSheepModel() {
             إرفاق صور الأغنام.
           </p>
           <img
-            src="../../assets/shephered.svg"
+            src={shepherdIcon}
             alt="Shepherd"
             className="w-16 h-16 object-contain"
           />

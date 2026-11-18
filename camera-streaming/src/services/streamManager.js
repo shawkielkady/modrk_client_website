@@ -41,14 +41,6 @@ function getSafeViewerId(viewerId) {
 }
 
 /**
- * Masks credentials in RTSP URLs for safe logging.
- */
-function sanitizeRtspUrl(url) {
-  if (typeof url !== "string") return "";
-  return url.replace(/rtsp:\/\/([^:]+):([^@]+)@/, "rtsp://$1:***@");
-}
-
-/**
  * Per-camera execution queue (mutex lock).
  * Guarantees that concurrent start, stop, and cleanup requests for the same camera
  * are processed strictly in sequence without race conditions.
@@ -368,7 +360,7 @@ async function startStream(cameraId, rtspUrl, viewerId) {
     ];
 
     console.log(
-      `[Stream ${id}] Starting new FFmpeg process for viewer ${safeViewerId} (${sanitizeRtspUrl(rtspUrl)})...`,
+      `[Stream ${id}] Starting new FFmpeg process for viewer ${safeViewerId}...`,
     );
 
     const ffmpegProcess = spawn(ffmpegPath, args, {
@@ -402,7 +394,9 @@ async function startStream(cameraId, rtspUrl, viewerId) {
     );
 
     ffmpegProcess.stderr.on("data", (data) => {
-      console.log(`[FFmpeg ${id}] ${data.toString().trim()}`);
+      if (process.env.NODE_ENV !== "production") {
+        console.log(`[FFmpeg ${id}] ${data.toString().trim()}`);
+      }
     });
 
     ffmpegProcess.on("spawn", () => {

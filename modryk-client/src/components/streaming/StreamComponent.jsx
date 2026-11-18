@@ -175,8 +175,8 @@ function CameraPage({ farm: propFarm }) {
           cam.id !== undefined &&
           cam.id !== null &&
           String(cam.id).trim() !== "" &&
-          typeof cam.url === "string" &&
-          cam.url.trim().startsWith("rtsp://"),
+          (!import.meta.env.DEV ||
+            (typeof cam.url === "string" && cam.url.trim().startsWith("rtsp://"))),
       )
     : [];
 
