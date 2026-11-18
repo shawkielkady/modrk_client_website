@@ -11,6 +11,7 @@ export const STREAMING_API_URL = (
  * Start or join an active HLS stream for a camera.
  *
  * @param {Object} params
+ * @param {string|number} params.farmId - Farm that owns the camera
  * @param {string|number} params.cameraId - Dynamic ID of the camera
  * @param {string} params.rtspUrl - Dynamic RTSP stream URL
  * @param {string} params.viewerId - Unique identifier for the viewer instance
@@ -18,7 +19,7 @@ export const STREAMING_API_URL = (
  * @returns {Promise<{ cameraId: string, status: string, hlsUrl: string, viewersCount: number }>}
  */
 export async function startStreamApi(
-  { cameraId, rtspUrl, viewerId },
+  { farmId, cameraId, rtspUrl, viewerId },
   signal,
 ) {
   if (!cameraId) {
@@ -41,6 +42,7 @@ export async function startStreamApi(
         Accept: "application/json",
       },
       body: JSON.stringify({
+        farmId: String(farmId),
         cameraId: String(cameraId),
         ...(import.meta.env.DEV && { rtspUrl: String(rtspUrl) }),
         viewerId: String(viewerId),

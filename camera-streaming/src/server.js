@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const fs = require("fs");
 
 const {
   startStream,
@@ -14,12 +13,23 @@ const {
 const app = express();
 const PORT = 4000;
 const production = process.env.NODE_ENV === "production";
-const cameraFile = path.join(__dirname, "../cameras.json");
-const cameras = new Map(
-  production && fs.existsSync(cameraFile)
-    ? Object.entries(JSON.parse(fs.readFileSync(cameraFile, "utf8")))
-    : [],
-);
+
+async function getFarmCameraUrl(farmId, cameraId) {
+  const response = await fetch(`https://modrk.modrk-app.com/api/ar/farms/${farmId}`, {
+    headers: { Accept: "application/json" },
+    redirect: "error",
+    signal: AbortSignal.timeout(5000),
+  });
+
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error("Farm lookup failed");
+
+  const { data } = await response.json();
+  const camera = data?.live_urls?.find((entry) => String(entry?.id) === String(cameraId));
+  return typeof camera?.url === "string" && camera.url.startsWith("rtsp://")
+    ? camera.url
+    : null;
+}
 
 app.use(cors(production ? { origin: "https://modrk.modrk-app.com" } : {}));
 app.use(express.json());
@@ -52,7 +62,7 @@ app.get("/health", (req, res) => {
 // Start or join an existing stream for a camera
 app.post("/api/streams", async (req, res) => {
   try {
-    const { cameraId, viewerId } = req.body || {};
+    const { farmId, cameraId, viewerId } = req.body || {};
 
     if (!/^[a-zA-Z0-9_-]+$/.test(String(cameraId || "")) ||
         !/^[a-zA-Z0-9_-]+$/.test(String(viewerId || ""))) {
@@ -61,10 +71,14 @@ app.post("/api/streams", async (req, res) => {
       });
     }
 
-    const rtspUrl = production ? cameras.get(String(cameraId)) : req.body.rtspUrl;
+    if (production && !/^[1-9][0-9]*$/.test(String(farmId || ""))) {
+      return res.status(400).json({ message: "Valid farmId is required" });
+    }
+
+    const rtspUrl = production ? await getFarmCameraUrl(farmId, cameraId) : req.body.rtspUrl;
     if (!rtspUrl) {
       return res.status(production ? 404 : 400).json({
-        message: production ? "Camera not configured" : "rtspUrl is required",
+        message: production ? "Camera not found for this farm" : "rtspUrl is required",
       });
     }
 

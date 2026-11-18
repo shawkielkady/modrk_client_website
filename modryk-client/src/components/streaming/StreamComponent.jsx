@@ -34,7 +34,7 @@ function generateViewerId() {
  * and automatic cleanup for a specific camera.
  * Keyed by `${cameraId}-${rtspUrl}` to guarantee complete teardown when regions/cameras switch.
  */
-function ActiveCameraStream({ cameraId, rtspUrl }) {
+function ActiveCameraStream({ farmId, cameraId, rtspUrl }) {
   const [hlsUrl, setHlsUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -57,7 +57,7 @@ function ActiveCameraStream({ cameraId, rtspUrl }) {
     async function initStream() {
       try {
         const streamData = await startStreamApi(
-          { cameraId, rtspUrl, viewerId },
+          { farmId, cameraId, rtspUrl, viewerId },
           abortController.signal,
         );
 
@@ -116,7 +116,7 @@ function ActiveCameraStream({ cameraId, rtspUrl }) {
       // Unregister only this viewer on component unmount / camera change
       stopViewerApi({ cameraId, viewerId }).catch(() => {});
     };
-  }, [cameraId, rtspUrl, retryIndex]);
+  }, [farmId, cameraId, rtspUrl, retryIndex]);
 
   if (loading) {
     return (
@@ -230,7 +230,8 @@ function CameraPage({ farm: propFarm }) {
           )}
 
           <ActiveCameraStream
-            key={`${activeCamera.id}-${activeCamera.url}`}
+            key={`${currentFarm.id}-${activeCamera.id}-${activeCamera.url}`}
+            farmId={currentFarm.id}
             cameraId={activeCamera.id}
             rtspUrl={activeCamera.url}
           />
